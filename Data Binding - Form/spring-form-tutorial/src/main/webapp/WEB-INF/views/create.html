@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+  <title>Create a new employee</title>
+</head>
+<body>
+<h3>Welcome, Enter The Employee Details hồ bảo trung</h3>
+<form th:action="@{/employee/addEmployee}" method="post" th:object="${employee}">
+  <table>
+    <tr>
+      <td><label for="id">Employee ID: </label></td>
+      <td><input id="id" th:field="*{id}"/></td>
+    </tr>
+    <tr>
+      <td><label for="name">Employee's name: </label></td>
+      <td><input id="name" th:field="*{name}"/></td>
+    </tr>
+    <tr>
+      <td><label for="contactNumber">Contact's number: </label></td>
+      <td><input id="contactNumber" th:field="*{contactNumber}"/></td>
+    </tr>
+    <tr>
+      <td><input type="submit" value="Submit"/></td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>
