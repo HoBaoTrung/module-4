@@ -57,24 +57,5 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
         return viewResolver;
     }
 
-    //    @Bean
-//    public CharacterEncodingFilter characterEncodingFilter() {
-//        CharacterEncodingFilter filter = new CharacterEncodingFilter();
-//        filter.setEncoding("UTF-8");
-//        filter.setForceEncoding(true);
-//        return filter;
-//    }
-    @Value("${file-upload}")
-    private String upload;
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/image/**")
-                .addResourceLocations("file:" + upload);
-    }
-    @Bean(name = "multipartResolver")
-    public CommonsMultipartResolver getResolver() {
-        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
-        resolver.setMaxUploadSizePerFile(52428800);
-        return resolver;
-    }
+
 }

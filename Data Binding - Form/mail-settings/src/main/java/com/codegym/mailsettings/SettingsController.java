@@ -26,8 +26,9 @@ public class SettingsController {
     }
 
     @PostMapping("/settings")
-    public String updateSettings(@ModelAttribute MailSettings settings) {
+    public String updateSettings(@ModelAttribute MailSettings settings, Model model) {
         this.currentSettings = settings;
-        return "redirect:/settings";
+        model.addAttribute("settings", currentSettings);
+        return "settings-view";
     }
 }

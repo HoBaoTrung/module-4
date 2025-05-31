@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Mail Settings - View</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .setting-label {
+      font-weight: bold;
+    }
+    .setting-block {
+      margin-bottom: 15px;
+    }
+    .button-bar {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+<h2>Current Mail Settings</h2>
+
+<div class="setting-block">
+  <span class="setting-label">Language:</span>
+  <span th:text="${settings.language}">English</span>
+</div>
+
+<div class="setting-block">
+  <span class="setting-label">Page Size:</span>
+  <span th:text="${settings.pageSize} + ' emails per page'">25 emails per page</span>
+</div>
+
+<div class="setting-block">
+  <span class="setting-label">Spam Filter:</span>
+  <span th:text="${settings.spamsFilter} ? 'Enabled' : 'Disabled'">Disabled</span>
+</div>
+
+<div class="setting-block">
+  <span class="setting-label">Signature:</span>
+  <pre th:text="${settings.signature}">Thor\nKing, Asgard</pre>
+</div>
+
+<div class="button-bar">
+  <a th:href="@{/settings}">
+    <button type="button">Edit Settings</button>
+  </a>
+</div>
+</body>
+</html>
