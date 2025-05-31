@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Danh sách Tờ Khai</title>
+  <meta charset="UTF-8"/>
+</head>
+<body>
+<h2>Danh sách Tờ Khai Y Tế</h2>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>Họ tên</th>
+    <th>Năm sinh</th>
+    <th>Giới tính</th>
+    <th>Quốc tịch</th>
+    <th>Điện thoại</th>
+    <th>Hành động</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="d : ${declarations}">
+    <td th:text="${d.fullName}"></td>
+    <td th:text="${d.birthYear}"></td>
+    <td th:text="${d.gender}"></td>
+    <td th:text="${d.nationality}"></td>
+    <td th:text="${d.phone}"></td>
+    <td><a th:href="@{/medical/edit/{id}(id=${d.id})}">Chỉnh sửa</a></td>
+  </tr>
+  </tbody>
+</table>
+
+<br/>
+<a href="/medical/form">📝 Tạo mới tờ khai</a>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Tờ Khai Y Tế</title>
+  <meta charset="UTF-8"/>
+</head>
+<body>
+<h2>Tờ Khai Y Tế</h2>
+
+<div th:if="${errorMessage}" style="color:red;" th:utext="${errorMessage}"></div>
+
+<form th:action="@{/medical/submit}" th:object="${declaration}" method="post">
+  <input type="hidden" th:field="*{id}"/>
+
+  <label>Họ tên (*):</label>
+  <input type="text" th:field="*{fullName}"/><br/>
+
+  <label>Năm sinh (*):</label>
+  <input type="number" th:field="*{birthYear}"/><br/>
+
+  <label>Giới tính (*):</label>
+  <select th:field="*{gender}">
+    <option  value="male">Nam</option>
+    <option  value="female">Nữ</option>
+  </select><br/>
+
+  <label>Quốc tịch (*):</label>
+  <input type="text" th:field="*{nationality}"/><br/>
+
+  <label>Số hộ chiếu / CMND:</label>
+  <input type="text" th:field="*{passportNumber}"/><br/>
+
+  <label>Phương tiện:</label>
+  <input type="text" th:field="*{vehicleType}" placeholder="Máy bay, tàu, ô tô,..."/><br/>
+  <label>Số hiệu:</label>
+  <input type="text" th:field="*{vehicleId}"/><br/>
+  <label>Số ghế:</label>
+  <input type="text" th:field="*{seatNumber}"/><br/>
+
+  <label>Ngày khởi hành:</label>
+  <input type="date" th:field="*{startDate}"/><br/>
+  <label>Ngày kết thúc:</label>
+  <input type="date" th:field="*{endDate}"/><br/>
+
+  <label>Địa phương đã đến (14 ngày qua):</label><br/>
+  <textarea th:field="*{visitedPlaces}" rows="3" cols="40"></textarea><br/>
+
+  <h4>Địa chỉ liên lạc</h4>
+  <label>Tỉnh/Thành phố (*):</label>
+  <input type="text" th:field="*{province}"/><br/>
+  <label>Quận/Huyện (*):</label>
+  <input type="text" th:field="*{district}"/><br/>
+  <label>Phường/Xã (*):</label>
+  <input type="text" th:field="*{ward}"/><br/>
+  <label>Địa chỉ:</label>
+  <input type="text" th:field="*{address}"/><br/>
+
+  <label>Điện thoại (*):</label>
+  <input type="text" th:field="*{phone}"/><br/>
+  <label>Email:</label>
+  <input type="email" th:field="*{email}"/><br/>
+
+  <h4>Triệu chứng (14 ngày qua)</h4>
+  <label><input type="checkbox" th:field="*{fever}"/> Sốt</label><br/>
+  <label><input type="checkbox" th:field="*{cough}"/> Ho</label><br/>
+  <label><input type="checkbox" th:field="*{breathDifficulty}"/> Khó thở</label><br/>
+  <label><input type="checkbox" th:field="*{pain}"/> Đau họng</label><br/>
+  <label><input type="checkbox" th:field="*{nausea}"/> Buồn nôn</label><br/>
+  <label><input type="checkbox" th:field="*{diarrhea}"/> Tiêu chảy</label><br/>
+  <label><input type="checkbox" th:field="*{skinBleeding}"/> Xuất huyết ngoài da</label><br/>
+  <label><input type="checkbox" th:field="*{rash}"/> Nổi ban</label><br/>
+
+  <h4>Lịch sử phơi nhiễm</h4>
+  <label><input type="checkbox" th:field="*{exposureToAnimal}"/> Tiếp xúc động vật / buôn bán thịt</label><br/>
+  <label><input type="checkbox" th:field="*{exposureToPatient}"/> Tiếp xúc gần với người nhiễm nCoV</label><br/>
+
+  <br/>
+  <button type="submit">GỬI TỜ KHAI</button>
+</form>
+</body>
+</html>
