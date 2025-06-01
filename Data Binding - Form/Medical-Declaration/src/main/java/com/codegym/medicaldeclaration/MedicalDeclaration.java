@@ -36,7 +36,7 @@ public class MedicalDeclaration {
     private boolean fever;
     private boolean cough;
     private boolean breathDifficulty;
-    private boolean pain;
+    private boolean soreThroat;
     private boolean nausea;
     private boolean diarrhea;
     private boolean skinBleeding;
@@ -217,12 +217,12 @@ public class MedicalDeclaration {
         this.breathDifficulty = breathDifficulty;
     }
 
-    public boolean isPain() {
-        return pain;
+    public boolean issoreThroat() {
+        return soreThroat;
     }
 
-    public void setPain(boolean pain) {
-        this.pain = pain;
+    public void setsoreThroat(boolean soreThroat) {
+        this.soreThroat = soreThroat;
     }
 
     public boolean isNausea() {
