@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Form</title>
+</head>
+<body>
+<h1 th:text="${blog.id} == null ? 'Create Blog' : 'Edit Blog'"></h1>
+<form action="/blogs/save" method="post" th:object="${blog}">
+    <input type="hidden" th:field="*{id}"/>
+    <input type="hidden" th:field="*{createdAt}"/>
+    <input type="hidden" th:field="*{updatedAt}"/>
+    Title: <input type="text" th:field="*{title}"/><br/>
+    Content: <textarea th:field="*{content}"></textarea><br/>
+    <button type="submit">Save</button>
+</form>
+
+</body>
+</html>
