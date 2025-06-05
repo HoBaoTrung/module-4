@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Bức ảnh của ngày - NASA</title>
+</head>
+<body>
+<h2>Bức ảnh của ngày từ NASA</h2>
+<img id="img-of-the-day" width="600">
+
+<h3>Đánh giá ảnh</h3>
+<form th:action="@{/home/feedback}" method="post" th:object="${feedback}">
+  Tên bạn: <input type="text" th:field="*{author}" required><br>
+  Nhận xét: <textarea th:field="*{comment}" required></textarea><br>
+  Điểm (1-5): <input type="number" th:field="*{rating}" min="1" max="5" required><br>
+  <button type="submit">Gửi đánh giá</button>
+</form>
+
+<h3>Phản hồi hôm nay</h3>
+<ul>
+  <li th:each="fb : ${feedbackList}">
+    <b th:text="${fb.author}">Tên</b> -
+<!--    <i th:text="'★'.repeat(fb.rating)"></i><br>-->
+
+    <span th:each="i : ${#numbers.sequence(1, fb.rating)}">★</span><br>
+
+    <span th:text="${fb.comment}">Nội dung</span><br>
+    <a th:href="@{'home/like/' + ${fb.id}}">👍 Like (<span th:text="${fb.likes}">0</span>)</a>
+    <hr>
+  </li>
+</ul>
+
+<script>
+  let query = 'https://api.nasa.gov/planetary/apod?api_key=DfSYGubwqxIBmMagdvxRjHFNfhqZgi9878GcjDCR';
+  let request = new XMLHttpRequest();
+  request.open('GET', query);
+  request.onload = function () {
+    if (request.status === 200) {
+      let response = JSON.parse(request.responseText);
+      document.getElementById('img-of-the-day').setAttribute('src', response.url);
+    }
+  };
+  request.send();
+</script>
+</body>
+</html>
