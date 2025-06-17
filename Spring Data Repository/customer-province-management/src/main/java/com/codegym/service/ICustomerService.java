@@ -8,4 +8,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface ICustomerService extends IGenerateService<Customer>{
     Iterable<Customer> findAllByProvince(Province province);
+    Page<Customer> findAll(Pageable pageable);
+    Page<Customer> findAllByName(Pageable pageable, String name);
 }

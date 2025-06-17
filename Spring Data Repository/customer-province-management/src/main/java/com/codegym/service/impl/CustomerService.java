@@ -40,4 +40,14 @@ public class CustomerService implements ICustomerService {
     public Iterable<Customer> findAllByProvince(Province province) {
         return iCustomerRepository.findAllByProvince(province);
     }
+
+    @Override
+    public Page<Customer> findAll(Pageable pageable) {
+        return iCustomerRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Customer> findAllByName(Pageable pageable, String name) {
+        return iCustomerRepository.findAllByFirstNameContaining(pageable, name);
+    }
 }
