@@ -6,7 +6,33 @@
 </head>
 <body>
 <h1>Blog List</h1>
-<a href="/blogs/new">Write New Blog</a>
+<a href="/blogs/new">Write New Blog</a><br>
+<a href="/category">View Category</a><br>
+<h1 th:if="${category}" th:text="'Bài viết danh mục: ' + ${category.name}"></h1>
+
+<nav>
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/blogs}">Trang chủ</a>
+        </li>
+        <li th:each="category : ${categories}" class="nav-item">
+            <a class="nav-link"
+               th:href="@{/blogs(categoryId=${category.id})}"
+               th:text="${category.name}">
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<div style="margin-bottom: 10px; margin-left: 110px">
+    <form th:action="@{/blogs}" method="get">
+        <input type="text" name="keyword" th:value="${keyword}">
+        <!-- Nếu đang có categoryId, giữ lại trong form -->
+        <input type="hidden" name="categoryId" th:if="${category}" th:value="${category.id}" />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
+
 <ul>
   <li th:each="blog : ${blogs}">
     <strong th:text="${blog.title}"></strong>
@@ -15,6 +41,10 @@
     <a th:href="@{'/blogs/delete/' + ${blog.id}}">Delete</a>
   </li>
 </ul>
-
+<a class="btn btn-primary" th:if="${blogs.hasPrevious()}"
+   th:href="@{/blogs/(page=${blogs.number - 1})}">Previous</a>
+<span th:text="${blogs.number + 1}"></span> / <span th:text="${blogs.totalPages}"></span>
+<a class="btn btn-primary" th:if="${blogs.hasNext()}"
+   th:href="@{/blogs/(page=${blogs.number + 1})}">Next</a>
 </body>
 </html>

@@ -10,6 +10,15 @@
     <input type="hidden" th:field="*{id}"/>
     <input type="hidden" th:field="*{createdAt}"/>
     <input type="hidden" th:field="*{updatedAt}"/>
+
+    <select class="form-control" name="categoryId" id="categoryId" th:value="${selectedCategoryId}">
+        <option th:each="category : ${categories}"
+                th:value="${category.id}"
+                th:text="${category.name}"
+                th:selected="${selectedCategoryId != null and selectedCategoryId == category.id}">
+        </option>
+    </select>
+
     Title: <input type="text" th:field="*{title}"/><br/>
     Content: <textarea th:field="*{content}"></textarea><br/>
     <button type="submit">Save</button>
