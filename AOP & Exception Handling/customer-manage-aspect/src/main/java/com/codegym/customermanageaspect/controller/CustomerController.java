@@ -37,7 +37,7 @@ public class CustomerController {
             modelAndView.addObject("customer", customer);
             return modelAndView;
         } catch (Exception e) {
-            return new ModelAndView("redirect:/customers");
+            return new ModelAndView("/customer/info");
         }
     }
 }
