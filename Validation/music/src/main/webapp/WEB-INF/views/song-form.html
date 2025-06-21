@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Form Bài Hát</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+<h2 th:text="${song.id == null ? 'Thêm bài hát' : 'Cập nhật bài hát'}"></h2>
+
+<form th:action="@{/songs/save}" th:object="${song}" method="post">
+  <input type="hidden" th:field="*{id}"/>
+
+  <div>
+    <label>Tên bài hát:</label>
+    <input type="text" th:field="*{name}"/>
+    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+  </div>
+
+  <div>
+    <label>Nghệ sĩ thể hiện:</label>
+    <input type="text" th:field="*{artist}"/>
+    <p th:if="${#fields.hasErrors('artist')}" th:errors="*{artist}"></p>
+  </div>
+
+  <div>
+    <label>Thể loại nhạc:</label>
+    <input type="text" th:field="*{genre}"/>
+    <p th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"></p>
+  </div>
+
+  <button type="submit">Lưu</button>
+</form>
+
+<p th:if="${message}" th:text="${message}"></p>
+</body>
+</html>
