@@ -21,6 +21,9 @@ public class NasaController {
 
     @PostMapping("/feedback")
     public String addFeedback(Feedback f) {
+        if (BadWordFilter.containsBadWords(f.getComment())) {
+            throw new BadFeedbackException("Feedback chứa từ ngữ không phù hợp", f);
+        }
         feedbackDao.addFeedback(f);
         return "redirect:/home";
     }
