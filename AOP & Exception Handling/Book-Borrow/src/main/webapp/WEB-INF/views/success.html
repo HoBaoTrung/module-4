@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Thành công</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+<h1 style="color:green;">✅ Thực hiện thành công!</h1>
+<p th:if="${code}">Mã mượn sách của bạn là: <strong th:text="${code}">00000</strong></p>
+<p><a href="/">⬅ Quay lại danh sách</a></p>
+</body>
+</html>

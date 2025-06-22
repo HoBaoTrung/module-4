@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Thư viện sách</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+<h1>📚 Danh sách sách trong thư viện</h1>
+<a th:href="@{'/return'}">Trả sách</a>
+<ul>
+  <li th:each="book : ${books}">
+    <span th:text="${book.title}">Tên sách</span> -
+    Còn lại: <span th:text="${book.availableCopies}">0</span>
+    | <a th:href="@{'/book/' + ${book.id}}">Chi tiết</a>
+  </li>
+</ul>
+</body>
+</html>

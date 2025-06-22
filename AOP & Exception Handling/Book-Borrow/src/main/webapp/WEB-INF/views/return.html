@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Trả sách</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+<h1>🔁 Trả sách</h1>
+<form method="post" th:action="@{/return}">
+  <label for="code">Nhập mã mượn sách:</label>
+  <input type="text" name="code" id="code" required />
+  <button type="submit">Trả sách</button>
+</form>
+<p><a href="/">⬅ Quay lại danh sách</a></p>
+</body>
+</html>
