@@ -5,6 +5,7 @@ import com.codegym.shoppingcart.model.Product;
 import com.codegym.shoppingcart.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,6 +27,16 @@ public class ProductController {
         ModelAndView modelAndView = new ModelAndView("/shop");
         modelAndView.addObject("products", productService.findAll());
         return modelAndView;
+    }
+
+    @GetMapping("/product/{id}")
+    public String viewProductDetail(@PathVariable("id") Long id, Model model) {
+        Product product = productService.findById(id).get();
+        if (product == null) {
+            return "redirect:/products"; // hoặc trả về trang lỗi
+        }
+        model.addAttribute("product", product);
+        return "/product-detail";
     }
 
     @GetMapping("/add/{id}")

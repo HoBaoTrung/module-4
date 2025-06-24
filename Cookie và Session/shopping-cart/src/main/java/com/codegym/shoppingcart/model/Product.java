@@ -11,14 +11,20 @@ public class Product {
     private String name;
     private double price;
     private String description;
-
+    private String imageUrl;
+    private double oldPrice;
+    private boolean isNew;
     public Product() {
     }
 
-    public Product(String name, double price, String description) {
+    public Product(Long id, String name, double price, String description, String imageUrl, double oldPrice, boolean isNew) {
+        this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
+        this.imageUrl = imageUrl;
+        this.oldPrice = oldPrice;
+        this.isNew = isNew;
     }
 
     public Long getId() {
@@ -51,5 +57,29 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public double getOldPrice() {
+        return oldPrice;
+    }
+
+    public void setOldPrice(double oldPrice) {
+        this.oldPrice = oldPrice;
+    }
+
+    public boolean isNew() {
+        return isNew;
+    }
+
+    public void setNew(boolean aNew) {
+        isNew = aNew;
     }
 }

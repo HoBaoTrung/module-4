@@ -1,39 +1,102 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Giỏ hàng</title>
+    <style>
+        table.cart {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .cart td, .cart th {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+            vertical-align: middle;
+        }
+        .cart img {
+            max-width: 80px;
+            height: auto;
+        }
+        .cart select {
+            padding: 5px;
+        }
+        .cart .remove-btn {
+            color: white;
+            background: red;
+            border: none;
+            border-radius: 50%;
+            padding: 3px 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .step {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .step div {
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+        }
+        .step .active {
+            background-color: #00bcd4;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-<p>
-    <a href="/shop">Shop</a>
-</p>
-<h1>Your Cart</h1>
-<form th:action="@{/shop}" th:object="${cart}" method="post">
-    <h3>Total Items: <span th:text="${cart.countItemQuantity()}"></span></h3>
-    <h3>Total Products: <span th:text="${cart.countProductQuantity()}"></span></h3>
-    <table border="1">
-        <tr>
-            <th>Item</th>
-            <th>Quantity</th>
-            <th>Price</th>
-        </tr>
-        <tr th:each="product: ${cart.products}">
-            <td th:text="${product.getKey().name}"></td>
+
+<div class="step">
+    <div class="active">01. Giỏ hàng</div>
+    <div>02. Đơn hàng</div>
+    <div>03. Thanh toán</div>
+</div>
+
+<h2>GIỎ HÀNG (<span th:text="${cart.countProductQuantity()}"></span>)</h2>
+
+    <table class="cart">
+        <tr th:each="entry : ${cart.products}">
             <td>
-                <a id="decrease_button" th:text="${'-'}"></a>
-                <span th:text="${product.getValue()}"></span>
-                <a id="increase_button" th:href="@{/add/__${product.getKey().id}__(action='show')}"
-                   th:text="${'+'}"></a>
+                <!-- Form xóa riêng -->
+                <form th:action="@{/cart/remove/{id}(id=${entry.key.id})}" method="post" style="display:inline;">
+                    <button class="remove-btn">X</button>
+                </form>
             </td>
-            <td th:text="${product.getKey().price}"></td>
+
+            <td><img th:src="@{${entry.key.imageUrl}}" alt="Ảnh sản phẩm" width="80"></td>
+
+            <td>
+                <strong th:text="${entry.key.name}"></strong><br>
+                Mã SP: <span th:text="${entry.key.id}"></span><br>
+                Đơn giá: <span th:text="${#numbers.formatDecimal(entry.key.price, 0, 'COMMA', 3, 'POINT')} + ' đ'"></span>
+            </td>
+
+            <td>
+                <!-- Form riêng cho cập nhật số lượng -->
+                <form th:action="@{/cart/update}" method="post">
+                    <input type="hidden" name="id" th:value="${entry.key.id}"/>
+                    <select name="quantity" onchange="this.form.submit()">
+                        <option th:each="i : ${#numbers.sequence(1, 10)}"
+                                th:value="${i}"
+                                th:text="${i}"
+                                th:selected="${i == entry.value}">
+                        </option>
+                    </select>
+                </form>
+            </td>
         </tr>
+
+
         <tr>
-            <td>Total</td>
-            <td></td>
-            <td th:text="${cart.countTotalPayment()}"></td>
+            <td colspan="3" style="text-align:right;"><strong>Tổng cộng:</strong></td>
+            <td>
+                <strong th:text="${#numbers.formatDecimal(cart.countTotalPayment(), 0, 'COMMA', 3, 'POINT')} + ' đ'"></strong>
+            </td>
         </tr>
     </table>
-</form>
+
+
+<p><a href="/shop">← Tiếp tục mua hàng</a></p>
+
 </body>
 </html>

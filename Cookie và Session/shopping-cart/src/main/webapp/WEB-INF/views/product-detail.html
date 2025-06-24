@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết sản phẩm</title>
+    <style>
+        .detail-container {
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+        }
+        .detail-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .price {
+            color: red;
+            font-weight: bold;
+        }
+        .old-price {
+            text-decoration: line-through;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+<div class="detail-container">
+    <h2 th:text="${product.name}">Tên sản phẩm</h2>
+    <img th:src="@{${product.imageUrl}}" alt="Ảnh sản phẩm">
+    <p>
+        <span th:if="${product.oldPrice > product.price}" class="old-price"
+              th:text="${#numbers.formatDecimal(product.oldPrice, 0, 'COMMA', 3, 'POINT')} + ' đ'"></span>
+        <span class="price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 3, 'POINT')} + ' đ'"></span>
+    </p>
+    <p><a th:href="@{/add/{id}(id=${product.id}, action='detail')}">Thêm vào giỏ hàng</a></p>
+    <p><a href="/products">← Quay lại danh sách</a></p>
+</div>
+</body>
+</html>

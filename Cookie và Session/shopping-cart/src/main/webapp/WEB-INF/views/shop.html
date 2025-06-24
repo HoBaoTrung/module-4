@@ -1,26 +1,68 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <title>Danh sách sản phẩm</title>
+  <style>
+    .product-list {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .product-item {
+      border: 1px solid #ccc;
+      width: 200px;
+      text-align: center;
+      position: relative;
+      padding: 10px;
+    }
+    .product-item img {
+      max-width: 100%;
+      height: auto;
+    }
+    .old-price {
+      text-decoration: line-through;
+      color: gray;
+    }
+    .price {
+      color: red;
+      font-weight: bold;
+    }
+    .new-label {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: red;
+      color: white;
+      font-size: 12px;
+      padding: 2px 5px;
+      transform: rotate(45deg);
+      transform-origin: top right;
+    }
+  </style>
 </head>
 <body>
+<h3 style="color:darkred;">DANH SÁCH SẢN PHẨM</h3>
+
+<div class="product-list">
+  <div class="product-item" th:each="product : ${products}">
+    <a th:href="@{/product/{id}(id=${product.id})}">
+    <div th:if="${product.new}" class="new-label">NEW</div>
+    <img th:src="@{${product.imageUrl}}" alt="Ảnh sản phẩm">
+    <p th:text="${product.name}">Tên sản phẩm</p>
+    <p>
+            <span th:if="${product.oldPrice > product.price}" class="old-price"
+                  th:text="${#numbers.formatDecimal(product.oldPrice, 0, 'COMMA', 3, 'POINT')} + ' đ'"></span>
+      <span class="price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 3, 'POINT')} + ' đ'"></span>
+    </p>
+    </a>
+    <a th:href="@{/add/{id}(id=${product.id}, action='list')}">Add to Cart</a>
+
+  </div>
+</div>
+
 <p>
-  <a href="/shopping-cart">Your cart</a>
+  <a href="/shopping-cart">Giỏ hàng của bạn</a>
 </p>
-<table border="1">
-  <tr>
-    <td>Name</td>
-    <td>Price</td>
-    <td>Add To Cart</td>
-  </tr>
-  <th:block th:each="product:${products}">
-    <tr>
-      <td th:text="${product.name}"></td>
-      <td th:text="${product.price}"></td>
-      <td><a th:href="@{/add/__${product.id}__(action='list')}">Add To Cart</a></td>
-    </tr>
-  </th:block>
-</table>
 </body>
 </html>
