@@ -30,6 +30,13 @@ dependencies {
     implementation group: 'org.springframework', name: 'spring-orm', version: '5.3.20'
     implementation group: 'org.hibernate', name: 'hibernate-core', version: '5.6.10.Final' // đã tích hợp với hibernate-entitymanager
     implementation group: 'org.springframework.data', name: 'spring-data-jpa', version: '2.7.0'
+    implementation group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.6.10.Final'
+
+    // https://mvnrepository.com/artifact/org.springframework/spring-tx
+    implementation group: 'org.springframework', name: 'spring-tx', version: '5.3.23'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.2'
+
 }
 
 test {
