@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Smartphone</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <form id="add-smartphone">
+        <h1>Form create</h1>
+        <table>
+            <tr>
+                <td><label for="producer">Producer:</label></td>
+                <td><input type="text" id="producer" placeholder="producer"></td>
+            </tr>
+            <tr>
+                <td><label for="model">Model:</label></td>
+                <td><input type="text" id="model" placeholder="model"></td>
+            </tr>
+            <tr>
+                <td><label for="price">Price:</label></td>
+                <td><input type="text" id="price" placeholder="price"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Add" onclick="addNewSmartPhone()"></td>
+            </tr>
+        </table>
+
+        <h1 id="title">List smartphone</h1>
+        <div id="div-btn">
+            <button onclick="successHandler()" id="display">Display list smartphone</button>
+            <button onclick="displayFormCreate()" id="display-create">Create new smartphone</button>
+        </div>
+        <div id="smartphoneList"></div>
+    </form>
+    <script>
+        function addNewSmartPhone() {
+            //lấy dữ liệu từ form html
+            let producer = $('#producer').val();
+            let model = $('#model').val();
+            let price = $('#price').val();
+            let newSmartphone = {
+                producer: producer,
+                model: model,
+                price: price
+            };
+            // gọi phương thức ajax
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type: "POST",
+                data: JSON.stringify(newSmartphone),
+                //tên API
+                url: "http://localhost:8080/api/smartphones",
+                //xử lý khi thành công
+                success: function () {successHandler()}
+            });
+            //chặn sự kiện mặc định của thẻ
+            event.preventDefault();
+        }
+
+
+        function successHandler() {
+            $.ajax({
+                type: "GET",
+                //tên API
+                url: "http://localhost:8080/api/smartphones",
+                //xử lý khi thành công
+                success: function (data) {
+                    console.log(data)
+                    // hiển thị danh sách ở đây
+                    let content = ' <table id="display-list" border="1"><tr>\n' +
+                        ' <th>Producer</td>\n' +
+                        ' <th>Model</td>\n' +
+                        ' <th>Price</td>\n' +
+                        ' <th>Delete</td>\n' +
+                        ' </tr>';
+                    for (let i = 0; i < data.length; i++) {
+                        content += getSmartphone(data[i]);
+                    }
+                    content += "</table>"
+                    document.getElementById('smartphoneList').innerHTML = content;
+                }
+            });
+            event.preventDefault();
+        }
+
+        function getSmartphone(smartphone) {
+            return `<tr><td >${smartphone.producer}</td><td >${smartphone.model}</td><td >${smartphone.price}</td>` +
+                `<td class="btn"><button class="deleteSmartphone" onclick="deleteSmartphone(${smartphone.id})">Delete</button></td></tr>`;
+        }
+
+        function deleteSmartphone(id) {
+            $.ajax({
+                type: "DELETE",
+                //tên API
+                url: `http://localhost:8080/api/smartphones/${id}`,
+                //xử lý khi thành công
+                success:  function () {successHandler()}
+            });
+            event.preventDefault();
+        }
+    </script>
+</body>
+
+</html>
