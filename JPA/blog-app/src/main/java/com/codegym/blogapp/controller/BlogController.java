@@ -55,6 +55,44 @@ public class BlogController {
         return "list";
     }
 
+    @GetMapping("/search")
+    @ResponseBody
+    public List<Blog> searchBlogs(
+            @RequestParam("keyword") Optional<String> keyword,
+            @RequestParam("categoryId") Optional<Long> categoryId,
+            @PageableDefault(size = 5, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        if (categoryId.isPresent()) {
+            return blogService.findPostsByCategory(categoryId.get(), pageable).getContent();
+        } else if (keyword.isPresent()) {
+            List<Blog> result = blogService.searchBlogs(keyword.get(), pageable).getContent();
+            return result;
+        } else {
+            return blogService.findAll(pageable).getContent();
+        }
+    }
+
+    @GetMapping("/load")
+    @ResponseBody
+    public List<Blog> loadMoreBlogs(
+            @RequestParam int page,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) Long categoryId,
+            @PageableDefault(size = 5, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        Page<Blog> result;
+
+        if (categoryId != null) {
+            result = blogService.findPostsByCategory(categoryId, pageable);
+        } else if (keyword != null && !keyword.isEmpty()) {
+            result = blogService.searchBlogs(keyword, pageable);
+        } else {
+            result = blogService.findAll(pageable);
+        }
+
+        return result.getContent();
+    }
+
 
     @GetMapping("/new")
     public String createForm(Model model) {
@@ -65,7 +103,7 @@ public class BlogController {
     }
 
     @PostMapping("/save")
-    public String save(Blog blog, @RequestParam("categoryId")Category category) {
+    public String save(Blog blog, @RequestParam("categoryId") Category category) {
         blog.setCategory(category);
         blogService.save(blog);
         return "redirect:/blogs";

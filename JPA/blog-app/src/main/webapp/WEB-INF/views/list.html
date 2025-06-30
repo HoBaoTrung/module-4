@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>List</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
 <body>
 <h1>Blog List</h1>
@@ -24,16 +25,25 @@
     </ul>
 </nav>
 
+<!--<div style="margin-bottom: 10px; margin-left: 110px">-->
+<!--    <form th:action="@{/blogs}" method="get">-->
+<!--        <input type="text" name="keyword" th:value="${keyword}">-->
+<!--        &lt;!&ndash; Nếu đang có categoryId, giữ lại trong form &ndash;&gt;-->
+<!--        <input type="hidden" name="categoryId" th:if="${category}" th:value="${category.id}" />-->
+<!--        <button type="submit" class="btn btn-primary">Search</button>-->
+<!--    </form>-->
+<!--</div>-->
+
 <div style="margin-bottom: 10px; margin-left: 110px">
-    <form th:action="@{/blogs}" method="get">
-        <input type="text" name="keyword" th:value="${keyword}">
-        <!-- Nếu đang có categoryId, giữ lại trong form -->
+    <form id="search-form">
+        <input type="text" name="keyword" id="keyword">
         <input type="hidden" name="categoryId" th:if="${category}" th:value="${category.id}" />
         <button type="submit" class="btn btn-primary">Search</button>
     </form>
 </div>
 
-<ul>
+
+<ul id="blog-list">
   <li th:each="blog : ${blogs}">
     <strong th:text="${blog.title}"></strong>
     <a th:href="@{'/blogs/view/' + ${blog.id}}">View</a>
@@ -41,10 +51,72 @@
     <a th:href="@{'/blogs/delete/' + ${blog.id}}">Delete</a>
   </li>
 </ul>
-<a class="btn btn-primary" th:if="${blogs.hasPrevious()}"
-   th:href="@{/blogs/(page=${blogs.number - 1})}">Previous</a>
-<span th:text="${blogs.number + 1}"></span> / <span th:text="${blogs.totalPages}"></span>
-<a class="btn btn-primary" th:if="${blogs.hasNext()}"
-   th:href="@{/blogs/(page=${blogs.number + 1})}">Next</a>
+<button id="load-more">Tải thêm</button>
+<!--<a class="btn btn-primary" th:if="${blogs.hasPrevious()}"-->
+<!--   th:href="@{/blogs/(page=${blogs.number - 1})}">Previous</a>-->
+<!--<span th:text="${blogs.number + 1}"></span> / <span th:text="${blogs.totalPages}"></span>-->
+<!--<a class="btn btn-primary" th:if="${blogs.hasNext()}"-->
+<!--   th:href="@{/blogs/(page=${blogs.number + 1})}">Next</a>-->
+
 </body>
+
+<script>
+    $(document).ready(function () {
+        $('#search-form').submit(function (e) {
+            e.preventDefault();
+            const keyword = $('#keyword').val();
+            const categoryId = $('input[name=categoryId]').val();
+
+            $.ajax({
+                url: '/blogs/search',
+                method: 'GET',
+                data: {keyword: keyword, categoryId: categoryId},
+                success: function (data) {
+                    let html = '';
+                    data.forEach(blog => {
+                        html += `<li>
+                        <strong>${blog.title}</strong>
+                        <a href="/blogs/view/${blog.id}">View</a>
+                        <a href="/blogs/edit/${blog.id}">Edit</a>
+                        <a href="/blogs/delete/${blog.id}">Delete</a>
+                    </li>`;
+                    });
+                    $('#blog-list').html(html);
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        let currentPage = 0;
+        let currentKeyword = $('#keyword').val();
+        let currentCategoryId = $('input[name=categoryId]').val();
+
+        $('#load-more').click(function () {
+            currentPage++;
+            $.ajax({
+                url: '/blogs/load',
+                method: 'GET',
+                data: {
+                    page: currentPage,
+                    keyword: currentKeyword,
+                    categoryId: currentCategoryId
+                },
+                success: function (data) {
+                    let html = '';
+                    data.forEach(blog => {
+                        html += `<li>
+                    <strong>${blog.title}</strong>
+                    <a href="/blogs/view/${blog.id}">View</a>
+                    <a href="/blogs/edit/${blog.id}">Edit</a>
+                    <a href="/blogs/delete/${blog.id}">Delete</a>
+                </li>`;
+                    });
+                    $('#blog-list').append(html);
+                }
+            });
+        });
+    })
+</script>
+
 </html>
