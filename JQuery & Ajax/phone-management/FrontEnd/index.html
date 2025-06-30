@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List Smartphone</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="index.js"></script>
+</head>
+<body>
+    <div id="div-btn">
+        <button id="display">Display list smartphone</button>
+        <button id="display-create">Create new smartphone</button>
+    </div>
+
+    <div id="form-section">
+        <form id="add-smartphone">
+            <input type="hidden" id="smartphone-id">
+            <h1>Smartphone Form</h1>
+            <table>
+                <tr>
+                    <td><label for="producer">Producer:</label></td>
+                    <td><input type="text" id="producer" required></td>
+                </tr>
+                <tr>
+                    <td><label for="model">Model:</label></td>
+                    <td><input type="text" id="model" required></td>
+                </tr>
+                <tr>
+                    <td><label for="price">Price:</label></td>
+                    <td><input type="text" id="price" required></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" id="submit-button" value="Add"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <div>
+        <h2>List smartphone</h2>
+        <div id="smartphoneList"></div>
+    </div>
+</body>
+</html>
