@@ -77,22 +77,31 @@ function loadSmartphones() {
         url: "http://localhost:8080/api/smartphones",
         success: function (data) {
             let content = `<table id="display-list" border="1"><tr>
-                <th>Producer</th><th>Model</th><th>Price</th><th>Actions</th></tr>`;
+                <th>${i18n.get('table.header.producer')}</th>
+                <th>${i18n.get('table.header.model')}</th>
+                <th>${i18n.get('table.header.price')}</th>
+                <th>${i18n.get('table.header.actions')}</th></tr>`;
             for (let i = 0; i < data.length; i++) {
                 content += `<tr>
                     <td>${data[i].producer}</td>
                     <td>${data[i].model}</td>
                     <td>${data[i].price}</td>
                     <td>
-                        <button onclick="editSmartphone(${data[i].id})">Edit</button>
-                        <button onclick="deleteSmartphone(${data[i].id})">Delete</button>
+                        <button data-i18n="button.update" onclick="editSmartphone(${data[i].id})"></button>
+                        <button data-i18n="button.delete" onclick="deleteSmartphone(${data[i].id})"></button>
                     </td></tr>`;
             }
             content += "</table>";
             $("#smartphoneList").html(content);
+
+            // 👉 THÊM DÒNG NÀY
+            if (typeof i18n !== 'undefined') {
+                i18n.apply(); // cập nhật nội dung i18n cho các phần tử mới tạo
+            }
         }
     });
 }
+
 
 function deleteSmartphone(id) {
     $.ajax({

@@ -2,43 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>List Smartphone</title>
+    
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="i18n.js"></script>
     <script src="index.js"></script>
+    
+    <title data-i18n="title"></title>
+
 </head>
 <body>
+
+    <select id="lang-select">
+    <option value="en">English</option>
+    <option value="vi">Tiếng Việt</option>
+    <option value="ja">日本語 (Tiếng Nhật)</option>
+<option value="fr">Français (Tiếng Pháp)</option>
+</select>
+
     <div id="div-btn">
-        <button id="display">Display list smartphone</button>
-        <button id="display-create">Create new smartphone</button>
+        <button id="display" data-i18n="button.display"></button>
+        <button id="display-create" data-i18n="button.displayCreate"></button>
     </div>
 
     <div id="form-section">
         <form id="add-smartphone">
             <input type="hidden" id="smartphone-id">
-            <h1>Smartphone Form</h1>
+            <h1 data-i18n="form.title"></h1>
             <table>
                 <tr>
-                    <td><label for="producer">Producer:</label></td>
+                    <td><label for="producer" data-i18n="form.producer"></label></td>
                     <td><input type="text" id="producer" required></td>
                 </tr>
                 <tr>
-                    <td><label for="model">Model:</label></td>
+                    <td><label for="model" data-i18n="form.model"></label></td>
                     <td><input type="text" id="model" required></td>
                 </tr>
                 <tr>
-                    <td><label for="price">Price:</label></td>
+                    <td><label for="price" data-i18n="form.price"></label></td>
                     <td><input type="text" id="price" required></td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td><input type="submit" id="submit-button" value="Add"></td>
+                    <td><input type="submit" id="submit-button" data-i18n="button.submit"></td>
                 </tr>
             </table>
         </form>
     </div>
 
     <div>
-        <h2>List smartphone</h2>
+        <h2 data-i18n="list.title"></h2>
         <div id="smartphoneList"></div>
     </div>
 </body>
