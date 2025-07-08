@@ -94,7 +94,7 @@ public class BlogController {
     }
 
 
-    @GetMapping("/new")
+    @GetMapping("/create")
     public String createForm(Model model) {
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("selectedCategoryId", null);
@@ -102,7 +102,7 @@ public class BlogController {
         return "form";
     }
 
-    @PostMapping("/save")
+    @PostMapping("/create")
     public String save(Blog blog, @RequestParam("categoryId") Category category) {
         blog.setCategory(category);
         blogService.save(blog);

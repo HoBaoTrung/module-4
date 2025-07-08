@@ -6,11 +6,11 @@
 </head>
 <body>
 <h1 th:text="${blog.id} == null ? 'Create Blog' : 'Edit Blog'"></h1>
-<form action="/blogs/save" method="post" th:object="${blog}">
+<form action="/blogs/create" method="post" th:object="${blog}">
     <input type="hidden" th:field="*{id}"/>
     <input type="hidden" th:field="*{createdAt}"/>
     <input type="hidden" th:field="*{updatedAt}"/>
-
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
     <select class="form-control" name="categoryId" id="categoryId" th:value="${selectedCategoryId}">
         <option th:each="category : ${categories}"
                 th:value="${category.id}"
