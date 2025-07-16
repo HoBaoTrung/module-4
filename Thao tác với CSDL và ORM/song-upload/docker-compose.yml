@@ -1,0 +1,44 @@
+
+version: "3.8"
+services:
+  mysqldocker:
+    image: mysql:8.4.0
+    ports:
+      - "2012:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=song # tự đông database tên song
+    volumes:
+      - mysql-data:/var/lib/mysql # Lưu trữ dữ liệu MySQL ra volume tên mysql-data, tránh mất dữ liệu khi container tắt.
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 5s
+    restart: unless-stopped #  Tự động khởi động lại container trừ khi người dùng dừng thủ công.
+    networks:
+      - app-network # Kết nối container này vào mạng app-network
+  App:
+    image: hotrung/upload-song:0.1
+    ports:
+      - "8081:8080"
+    depends_on:
+      mysqldocker:
+        condition: service_healthy # Chờ cho đến khi MySQL "healthy" (do healthcheck) thì mới chạy container App.
+    environment:
+#      - SPRING_DATASOURCE_URL=jdbc:mysql://databases:3306/song
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldocker:3306/song
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=123456
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    restart: unless-stopped
+    networks:
+      - app-network
+
+volumes:
+  mysql-data: # Tạo volume tên mysql-data để lưu dữ liệu MySQL.
+
+networks:
+  app-network:
+    driver: bridge # Tạo một mạng riêng tên app-network kiểu bridge để các container giao tiếp với nhau qua tên service.
